@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -16,36 +17,46 @@ export default function Dashboard() {
         <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px] text-right">Date</TableHead>
-            <TableHead className="text-left">Customer</TableHead>
-            <TableHead className="text-left">Email</TableHead>
-            <TableHead className="text-center">Status</TableHead>
-            <TableHead className="text-right">Value</TableHead>
+            <TableHead className="w-[100px] p-4">
+                Date
+            </TableHead>
+            <TableHead className="p-4">
+                Customer
+            </TableHead>
+            <TableHead className="p-4">
+                Email
+            </TableHead>
+            <TableHead className="text-center p-4">
+                Status
+            </TableHead>
+            <TableHead className="text-right p-4">
+                Value
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell className="font-medium text-left">
+            <TableCell className="font-medium text-left p-4">
                 <span className="font-semibold">
                     10/31/2024
                 </span>
             </TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left p-4">
                 <span className="font-semibold">
                     Yash Kumar
                 </span>
             </TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left p-4">
                 <span>
                     xyz@gmail.com
                 </span>
             </TableCell>
-            <TableCell className="text-center">
-                <span className="font-semibold">
+            <TableCell className="text-center p-4">
+                <Badge className="rounded-full">
                     Open
-                </span>
+                </Badge>
             </TableCell>
-            <TableCell className="text-right">
+            <TableCell className="text-right p-4">
                 <span className="font-semibold">
                     ₹250.00
                 </span>
