@@ -1,32 +1,34 @@
 import { Button } from "@/components/ui/button";
-import { CirclePlus } from "lucide-react";
-import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function NewInvoice() {
   return (
-    <main className="flex flex-col justify-center text-center gap-5 max-w-5xl mx-auto my-12">
+    <main className="flex flex-col justify-center h-full gap-5 max-w-5xl mx-auto my-12">
       <div className="justify-between flex">
         <h1 className="text-3xl font-bold">Create a New Invoice</h1>
       </div>
 
-      <form>
+      <form className="grid gap-4 max-w-xs">
         <div>
-            <label>Billing name</label>
-            <input type="text" />
+            <Label htmlFor="name" className="block mb-2 font-semibold text-base">Billing name</Label>
+            <Input id="name" name="name" type="text" />
         </div>
         <div>
-            <label>Billing Email</label>
-            <input type="email" />
+            <Label htmlFor="email" className="block mb-2 font-semibold text-base">Billing Email</Label>
+            <Input id="email" name="email" type="email" />
         </div>
         <div>
-            <label>Value</label>
-            <input type="text" />
+            <Label htmlFor="vlaue" className="block mb-2 font-semibold text-base">Value</Label>
+            <Input id="value" name="value" type="text" />
         </div>
         <div>
-            <label>Description</label>
-            <textarea>
-                
-            </textarea>
+            <Label htmlFor="description" className="block mb-2 font-semibold text-base">Description</Label>
+            <Textarea id="description" name="description"></Textarea>
+        </div>
+        <div>
+            <Button className="w-full font-semibold">Submit</Button>
         </div>
       </form>
     </main>
