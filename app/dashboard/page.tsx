@@ -9,10 +9,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { db } from "@/db";
+import { Invoices } from "@/db/schema";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const results = await db.select().from(Invoices);
   return (
     <main className="flex flex-col justify-center text-center gap-5 max-w-5xl mx-auto my-12">
       <div className="justify-between flex">
@@ -38,23 +41,27 @@ export default function Dashboard() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium text-left p-4">
-              <span className="font-semibold">10/31/2024</span>
-            </TableCell>
-            <TableCell className="text-left p-4">
-              <span className="font-semibold">Yash Kumar</span>
-            </TableCell>
-            <TableCell className="text-left p-4">
-              <span>xyz@gmail.com</span>
-            </TableCell>
-            <TableCell className="text-center p-4">
-              <Badge className="rounded-full">Open</Badge>
-            </TableCell>
-            <TableCell className="text-right p-4">
-              <span className="font-semibold">₹250.00</span>
-            </TableCell>
-          </TableRow>
+          {results.map((result) => {
+            return (
+              <TableRow key={result.id}>
+                <TableCell className="font-medium text-left p-4">
+                  <span className="font-semibold">10/31/2024</span>
+                </TableCell>
+                <TableCell className="text-left p-4">
+                  <span className="font-semibold">Yash Kumar</span>
+                </TableCell>
+                <TableCell className="text-left p-4">
+                  <span>xyz@gmail.com</span>
+                </TableCell>
+                <TableCell className="text-center p-4">
+                  <Badge className="rounded-full">{result.status}</Badge>
+                </TableCell>
+                <TableCell className="text-right p-4">
+                  <span className="font-semibold">₹{result.value / 100}</span>
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </main>
