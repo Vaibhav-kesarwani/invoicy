@@ -1,3 +1,4 @@
+import { createAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +11,7 @@ export default async function NewInvoice() {
         <h1 className="text-3xl font-bold">Create a New Invoice</h1>
       </div>
 
-      <form className="grid gap-4 max-w-xs">
+      <form action={createAction} className="grid gap-4 max-w-xs">
         <div>
           <Label htmlFor="name" className="block mb-2 font-semibold text-base">
             Billing name
