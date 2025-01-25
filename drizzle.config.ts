@@ -5,7 +5,7 @@ dotenv.config({
     path: "./.env.local",
 });
 
-if (process.env.XATA_DATABASE_URL !== "string") {
+if (typeof process.env.XATA_DATABASE_URL !== "string") {
     throw new Error("XATA_DATABASE_URL is not set");
 }
 
