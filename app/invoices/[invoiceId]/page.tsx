@@ -30,7 +30,7 @@ export default async function InvoicePage({
     <main className="h-full max-w-5xl mx-auto my-12">
       <div className="justify-between flex mb-8">
         <h1 className="flex items-center gap-4 text-3xl font-semibold">
-          Invoices {invoiceId}
+          Invoice {invoiceId}
           <Badge
             className={cn(
               "rounded-full capitalize",

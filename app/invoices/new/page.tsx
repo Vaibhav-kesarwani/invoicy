@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { SyntheticEvent, useState } from "react";
 import Form from "next/form";
 import Container from "@/components/Container";
+import Link from "next/link";
 
 export default function NewInvoice() {
   const [state, setState] = useState("ready");
@@ -23,7 +24,9 @@ export default function NewInvoice() {
     <main className="h-full">
       <Container>
         <div className="justify-between flex mb-6">
-          <h1 className="text-3xl font-bold">Create a New Invoice</h1>
+          <h1 className="text-3xl font-bold">
+            <Link href={"/dashboard"}>Create a New Invoice</Link>
+          </h1>
         </div>
 
         <Form
