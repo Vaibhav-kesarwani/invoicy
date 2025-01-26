@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { Invoices } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import { eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
 
 export default async function InvoicePage({
   params,
@@ -16,6 +17,10 @@ export default async function InvoicePage({
     .from(Invoices)
     .where(eq(Invoices.id, invoiceId))
     .limit(1);
+
+  if (!result) {
+    notFound();
+  }
 
   return (
     <main className="h-full max-w-5xl mx-auto my-12">
