@@ -44,20 +44,39 @@ export default async function Dashboard() {
           {results.map((result) => {
             return (
               <TableRow key={result.id}>
-                <TableCell className="font-medium text-left p-4">
-                  <span className="font-semibold">10/31/2024</span>
+                <TableCell className="font-medium text-left p-0">
+                  <Link
+                    href={`invoices/${result.id}`}
+                    className="font-semibold p-4 block"
+                  >
+                    {new Date(result.createTs).toLocaleDateString()}
+                  </Link>
                 </TableCell>
-                <TableCell className="text-left p-4">
-                  <span className="font-semibold">Yash Kumar</span>
+                <TableCell className="text-left p-0">
+                  <Link
+                    href={`invoices/${result.id}`}
+                    className="font-semibold p-4 block"
+                  >
+                    Yash Kumar
+                  </Link>
                 </TableCell>
-                <TableCell className="text-left p-4">
-                  <span>xyz@gmail.com</span>
+                <TableCell className="text-left p-0">
+                  <Link href={`invoices/${result.id}`} className="p-4 block">
+                    xyz@gmail.com
+                  </Link>
                 </TableCell>
-                <TableCell className="text-center p-4">
-                  <Badge className="rounded-full">{result.status}</Badge>
+                <TableCell className="text-center p-0">
+                  <Link href={`invoices/${result.id}`} className="p-4 block">
+                    <Badge className="rounded-full">{result.status}</Badge>
+                  </Link>
                 </TableCell>
-                <TableCell className="text-right p-4">
-                  <span className="font-semibold">₹{result.value / 100}</span>
+                <TableCell className="text-right p-0">
+                  <Link
+                    href={`invoices/${result.id}`}
+                    className="font-semibold p-4 block"
+                  >
+                    ₹{(result.value / 100).toFixed(2)}
+                  </Link>
                 </TableCell>
               </TableRow>
             );
