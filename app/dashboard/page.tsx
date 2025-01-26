@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { db } from "@/db";
 import { Invoices } from "@/db/schema";
+import { cn } from "@/lib/utils";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
 
@@ -67,7 +68,17 @@ export default async function Dashboard() {
                 </TableCell>
                 <TableCell className="text-center p-0">
                   <Link href={`invoices/${result.id}`} className="p-4 block">
-                    <Badge className="rounded-full">{result.status}</Badge>
+                    <Badge
+                      className={cn(
+                        "rounded-full",
+                        result.status === "open" && "bg-blue-500",
+                        result.status === "paid" && "bg-green-600",
+                        result.status === "void" && "bg-zinc-700",
+                        result.status === "unpaid" && "bg-red-600"
+                      )}
+                    >
+                      {result.status}
+                    </Badge>
                   </Link>
                 </TableCell>
                 <TableCell className="text-right p-0">
