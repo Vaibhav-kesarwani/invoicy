@@ -14,6 +14,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
+const AVAILABLE_STATUSES = [
+  {
+    id: "open",
+    label: "Open",
+  },
+  {
+    id: "paid",
+    label: "Paid",
+  },
+  {
+    id: "void",
+    label: "Void",
+  },
+  {
+    id: "unpaid",
+    label: "Unpaid",
+  },
+];
+
 export default async function InvoicePage({
   params,
 }: {
@@ -57,14 +76,17 @@ export default async function InvoicePage({
             </Badge>
           </h1>
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
               <Button variant={"outline"}>Change status</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>Open</DropdownMenuItem>
-              <DropdownMenuItem>Paid</DropdownMenuItem>
-              <DropdownMenuItem>Void</DropdownMenuItem>
-              <DropdownMenuItem>Unpaid</DropdownMenuItem>
+              {AVAILABLE_STATUSES.map((status) => {
+                return (
+                  <DropdownMenuItem key={status.id}>
+                    {status.label}
+                  </DropdownMenuItem>
+                );
+              })}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
