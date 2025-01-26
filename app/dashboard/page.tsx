@@ -21,7 +21,7 @@ export default async function Dashboard() {
   return (
     <main className="h-full">
       <Container>
-        <div className="justify-between flex">
+        <div className="justify-between flex mb-6">
           <h1 className="text-3xl font-bold">Invoices</h1>
           <p>
             <Button className="inline-flex gap-2" variant="ghost" asChild>
