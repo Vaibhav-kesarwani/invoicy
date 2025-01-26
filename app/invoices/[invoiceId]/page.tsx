@@ -61,10 +61,10 @@ export default async function InvoicePage({
               <Button variant={"outline"}>Change status</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
+              <DropdownMenuItem>Open</DropdownMenuItem>
+              <DropdownMenuItem>Paid</DropdownMenuItem>
+              <DropdownMenuItem>Void</DropdownMenuItem>
+              <DropdownMenuItem>Unpaid</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
