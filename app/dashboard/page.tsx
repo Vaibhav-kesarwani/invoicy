@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { db } from "@/db";
-import { Invoices } from "@/db/schema";
+import { Customers, Invoices } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
@@ -28,7 +28,16 @@ export default async function Dashboard() {
   const results = await db
     .select()
     .from(Invoices)
+    .innerJoin(Customers, eq(Invoices.customerId, Customers.id))
     .where(eq(Invoices.userId, userId));
+
+  const invoices = results?.map(({invoices, customers}) => {
+    return {
+      ...invoices,
+      customer: customers
+    }
+  })
+
   return (
     <main className="h-full">
       <Container>
@@ -55,7 +64,7 @@ export default async function Dashboard() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {results.map((result) => {
+            {invoices.map((result) => {
               return (
                 <TableRow key={result.id}>
                   <TableCell className="font-medium text-left p-0">
@@ -71,12 +80,12 @@ export default async function Dashboard() {
                       href={`invoices/${result.id}`}
                       className="font-semibold p-4 block"
                     >
-                      Yash Kumar
+                      {result.customer.name}
                     </Link>
                   </TableCell>
                   <TableCell className="text-left p-0">
                     <Link href={`invoices/${result.id}`} className="p-4 block">
-                      xyz@gmail.com
+                      {result.customer.email}
                     </Link>
                   </TableCell>
                   <TableCell className="text-center p-0">
