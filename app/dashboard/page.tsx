@@ -14,29 +14,44 @@ import { db } from "@/db";
 import { Customers, Invoices } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
 
 export default async function Dashboard() {
-  const { userId } = await auth();
+  const { userId, orgId } = await auth();
 
   if (!userId) {
     return;
   }
 
-  const results = await db
-    .select()
-    .from(Invoices)
-    .innerJoin(Customers, eq(Invoices.customerId, Customers.id))
-    .where(eq(Invoices.userId, userId));
+  let results;
 
-  const invoices = results?.map(({invoices, customers}) => {
+  if (orgId) {
+    results = await db
+      .select()
+      .from(Invoices)
+      .innerJoin(Customers, eq(Invoices.customerId, Customers.id))
+      .where(eq(Invoices.organizationId, orgId));
+  } else {
+    results = await db
+      .select()
+      .from(Invoices)
+      .innerJoin(Customers, eq(Invoices.customerId, Customers.id))
+      .where(
+        and(
+          eq(Invoices.userId, userId),
+          isNull(Invoices.organizationId),
+        )
+      );
+  }
+
+  const invoices = results?.map(({ invoices, customers }) => {
     return {
       ...invoices,
-      customer: customers
-    }
-  })
+      customer: customers,
+    };
+  });
 
   return (
     <main className="h-full">
