@@ -5,27 +5,14 @@ import { eq, and, isNull } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Invoice from "./invoice";
 
-interface PageProps {
-  params: {
-    invoiceId: string;
-  };
-}
+export default async function InvoicePage({params}: {params: Promise<{ invoiceId: string }>}) {
+  const { userId, orgId } = await auth();
+  const invoiceId = parseInt((await params).invoiceId);
 
-export default async function InvoicePage({ params }: PageProps) {
-  // Ensure params is properly structured and contains invoiceId
-  if (!params?.invoiceId) {
-    throw new Error("Missing or invalid parameters");
-  }
-
-  const invoiceId = parseInt(params.invoiceId, 10);
+  if (!userId) return;
 
   if (isNaN(invoiceId)) {
     throw new Error("Invalid invoice id");
-  }
-
-  const { userId, orgId } = await auth();
-  if (!userId) {
-    throw new Error("Unauthorized access");
   }
 
   let result;
