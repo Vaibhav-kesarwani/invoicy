@@ -4,7 +4,7 @@
 import { db } from "@/db";
 import { Customers, Invoices, Status } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { and, eq } from "drizzle-orm";
+import { and, eq, is, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -50,7 +50,7 @@ export async function createAction(formData: FormData) {
 }
 
 export async function updateStatus(formData: FormData) {
-  const { userId } = await auth();
+  const { userId, orgId } = await auth();
 
   if (!userId) {
     return;
@@ -59,16 +59,31 @@ export async function updateStatus(formData: FormData) {
   const id = formData.get("id") as string;
   const status = formData.get("status") as Status;
 
-  const results = await db
-    .update(Invoices)
-    .set({ status })
-    .where(and(eq(Invoices.id, parseInt(id)), eq(Invoices.userId, userId)));
+  if (orgId) {
+    await db
+      .update(Invoices)
+      .set({ status })
+      .where(
+        and(eq(Invoices.id, parseInt(id)), eq(Invoices.organizationId, orgId))
+      );
+  } else {
+    await db
+      .update(Invoices)
+      .set({ status })
+      .where(
+        and(
+          eq(Invoices.id, parseInt(id)),
+          eq(Invoices.userId, userId),
+          isNull(Invoices.organizationId)
+        )
+      );
+  }
 
   revalidatePath(`/invoices/${id}`, "page");
 }
 
 export async function deleteInvoiceAction(formData: FormData) {
-  const { userId } = await auth();
+  const { userId, orgId } = await auth();
 
   if (!userId) {
     return;
@@ -76,9 +91,23 @@ export async function deleteInvoiceAction(formData: FormData) {
 
   const id = formData.get("id") as string;
 
-  const results = await db
-    .delete(Invoices)
-    .where(and(eq(Invoices.id, parseInt(id)), eq(Invoices.userId, userId)));
+  if (orgId) {
+    await db
+      .delete(Invoices)
+      .where(
+        and(eq(Invoices.id, parseInt(id)), eq(Invoices.organizationId, orgId))
+      );
+  } else {
+    await db
+      .delete(Invoices)
+      .where(
+        and(
+          eq(Invoices.id, parseInt(id)),
+          eq(Invoices.userId, userId),
+          isNull(Invoices.organizationId)
+        )
+      );
+  }
 
   redirect("/dashboard");
 }
