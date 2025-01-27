@@ -27,10 +27,7 @@ export default async function InvoicePage({
       .from(Invoices)
       .innerJoin(Customers, eq(Invoices.customerId, Customers.id))
       .where(
-        and(
-          eq(Invoices.id, invoiceId), 
-          eq(Invoices.organizationId, orgId)
-        )
+        and(eq(Invoices.id, invoiceId), eq(Invoices.organizationId, orgId))
       )
       .limit(1);
   } else {

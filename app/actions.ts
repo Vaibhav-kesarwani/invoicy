@@ -1,12 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 
 import { db } from "@/db";
 import { Customers, Invoices, Status } from "@/db/schema";
+import InvoiceCreatedEmail from "@/email/invoice-created";
 import { auth } from "@clerk/nextjs/server";
-import { and, eq, is, isNull } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function createAction(formData: FormData) {
   const { userId, orgId } = await auth();
@@ -44,6 +47,13 @@ export async function createAction(formData: FormData) {
     })
     .returning({
       id: Invoices.id,
+    });
+
+    const {} = await resend.emails.send({
+      from: 'Vaibhav Kesarwani <onboarding@resend.dev>',
+      to: [email],
+      subject: 'You have a new invoice',
+      react: InvoiceCreatedEmail({ invoiceId: results[0].id }),
     });
 
   redirect(`/invoices/${results[0].id}`);
