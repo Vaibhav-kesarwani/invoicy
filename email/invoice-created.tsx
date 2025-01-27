@@ -20,7 +20,7 @@ import {
   
   const baseUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
-    : "localhost:3000";
+    : "http://localhost:3000";
   
   export const InvoiceCreatedEmail = ({
     invoiceId,
