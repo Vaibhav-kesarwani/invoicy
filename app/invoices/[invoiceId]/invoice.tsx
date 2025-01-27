@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import Container from "@/components/Container";
@@ -14,12 +15,30 @@ import { Button } from "@/components/ui/button";
 import { AVAILABLE_STATUSES } from "@/data/invoices";
 import { updateStatus } from "@/app/actions";
 import { ChevronDown } from "lucide-react";
+import { useOptimistic } from "react";
 
 interface InvoiceProps {
   invoice: typeof Invoices.$inferSelect;
 }
 
 export default function Invoice({ invoice }: InvoiceProps) {
+  const [currentStatus, setCurrentStatus] = useOptimistic(
+    invoice.status,
+    (state, newStatus) => {
+      return String(newStatus);
+    }
+  );
+
+  async function handleOnUpdateStatus(formData: FormData) {
+    const originalStatus = currentStatus;
+    setCurrentStatus(formData.get("status"));
+    try {
+        await updateStatus(formData);
+    } catch (e) {
+        setCurrentStatus(originalStatus);
+    }
+  }
+
   return (
     <main className="w-full h-full">
       <Container>
@@ -29,13 +48,13 @@ export default function Invoice({ invoice }: InvoiceProps) {
             <Badge
               className={cn(
                 "rounded-full capitalize",
-                invoice.status === "open" && "bg-blue-500",
-                invoice.status === "paid" && "bg-green-600",
-                invoice.status === "void" && "bg-zinc-700",
-                invoice.status === "unpaid" && "bg-red-600"
+                currentStatus === "open" && "bg-blue-500",
+                currentStatus === "paid" && "bg-green-600",
+                currentStatus === "void" && "bg-zinc-700",
+                currentStatus === "unpaid" && "bg-red-600"
               )}
             >
-              {invoice.status}
+              {currentStatus}
             </Badge>
           </h1>
           <DropdownMenu>
@@ -49,7 +68,7 @@ export default function Invoice({ invoice }: InvoiceProps) {
               {AVAILABLE_STATUSES.map((status) => {
                 return (
                   <DropdownMenuItem key={status.id}>
-                    <form action={updateStatus}>
+                    <form action={handleOnUpdateStatus}>
                       <input type="hidden" value={invoice.id} name="id" />
                       <input type="hidden" value={status.id} name="status" />
                       <button>{status.label}</button>
