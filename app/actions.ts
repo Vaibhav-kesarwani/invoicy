@@ -9,7 +9,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function createAction(formData: FormData) {
-  const { userId } = await auth();
+  const { userId, orgId } = await auth();
 
   if (!userId) {
     return;
@@ -26,6 +26,7 @@ export async function createAction(formData: FormData) {
       name,
       email,
       userId,
+      organizationId: orgId || null,
     })
     .returning({
       id: Customers.id,
@@ -39,6 +40,7 @@ export async function createAction(formData: FormData) {
       userId,
       customerId: customer.id,
       status: "open",
+      organizationId: orgId || null,
     })
     .returning({
       id: Invoices.id,
