@@ -15,6 +15,13 @@
       "when": 1737881816830,
       "tag": "0001_tricky_mole_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1737967900932,
+      "tag": "0002_glorious_vengeance",
+      "breakpoints": true
     }
   ]
 }
