@@ -2,7 +2,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
-import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -24,7 +24,7 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body
           suppressHydrationWarning
-          className={clsx(dmSans.className, "antialiased bg-[#EAEEFE]")}
+          className={twMerge(dmSans.className, "antialiased bg-[#EAEEFE]")}
         >
           <Header />
           {children}
