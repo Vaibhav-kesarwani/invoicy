@@ -1,13 +1,20 @@
 import { ClerkProvider } from "@clerk/nextjs";
 
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
-import { twMerge } from "tailwind-merge";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const dmSans = DM_Sans({ subsets: ["latin"] });
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,7 +31,7 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body
           suppressHydrationWarning
-          className={twMerge(dmSans.className, "antialiased bg-[#EAEEFE]")}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen grid grid-rows-[auto_1fr_auto]`}
         >
           <Header />
           {children}

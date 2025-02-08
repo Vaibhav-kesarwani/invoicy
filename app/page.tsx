@@ -12,4 +12,16 @@ export default function Home() {
       </p>
     </main>
   );
+  // return (
+  //   <>
+  //     <Header />
+  //     <Hero />
+  //     <LogoTicker />
+  //     <ProductShowcase />
+  //     <Pricing />
+  //     <Testimonials />
+  //     <CallToAction />
+  //     <Footer />
+  //   </>
+  // );
 }
